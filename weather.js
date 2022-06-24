@@ -2,11 +2,20 @@
 'use strict';
 
 import { getArgs } from "./helpers/args.js";
-import { printHelp } from "./services/log.service.js";
+import { printHelp, printSuccess, printError } from "./services/log.service.js";
+import { saveKeyValue } from "./services/storage.service.js";
+
+async function saveToken(token) {
+    try {
+        await saveKeyValue('token', token);
+        printSuccess('Token saved');
+    } catch (err) {
+        printError(err.message);
+    }
+}
 
 function initCLI() {
     const args = getArgs(process.argv);
-    console.log(args);
     if (args.h) {
         printHelp();
     }
@@ -14,7 +23,7 @@ function initCLI() {
         // save city
     }
     if (args.t) {
-        // token
+        return saveToken(args.t);
     }
     // show weather
 };
