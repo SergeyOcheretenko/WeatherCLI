@@ -2,10 +2,15 @@
 'use strict';
 
 import { getArgs } from "./helpers/args.js";
+import { getWeather } from "./services/api.service.js";
 import { printHelp, printSuccess, printError } from "./services/log.service.js";
 import { saveKeyValue } from "./services/storage.service.js";
 
 async function saveToken(token) {
+    if (!token.length) {
+        printError('Token not specified');
+        return;
+    }
     try {
         await saveKeyValue('token', token);
         printSuccess('Token saved');
@@ -25,7 +30,7 @@ function initCLI() {
     if (args.t) {
         return saveToken(args.t);
     }
-    // show weather
+    getWeather('kiev');
 };
 
 initCLI();
