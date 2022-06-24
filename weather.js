@@ -3,8 +3,8 @@
 
 import { getArgs } from "./helpers/args.js";
 import { getWeather } from "./services/api.service.js";
-import { printHelp, printSuccess, printError } from "./services/log.service.js";
-import { saveKeyValue } from "./services/storage.service.js";
+import { printHelp, printSuccess, printError, printWeather } from "./services/log.service.js";
+import { getKeyValue, saveKeyValue } from "./services/storage.service.js";
 
 async function saveToken(token) {
     if (!token.length) {
@@ -19,17 +19,31 @@ async function saveToken(token) {
     }
 }
 
+async function saveCity(city) {
+    if (!city.length) {
+        printError('City not specified');
+        return;
+    }
+    try {
+        await saveKeyValue('city', city);
+        printSuccess('City saved');
+    } catch (err) {
+        printError(err.message);
+    }
+}
+
 async function getForcast() {
     try {
-        const weather = await getWeather('kiev');
-        console.log(weather);
+        const city = process.env.CITY ?? await getKeyValue('city');
+        const weather = await getWeather(city);
+        printWeather(weather);
     } catch (err) {
         if (err?.response?.status == 404) {
             printError('Incorrect city specified');
         } else if (err?.response?.status == 401) {
             printError('Incorrect token specified');
         } else {
-            printError(e.message);
+            printError(err.message);
         }
     }
 }
@@ -40,7 +54,7 @@ function initCLI() {
         printHelp();
     }
     if (args.s) {
-        // save city
+        return saveCity(args.s);
     }
     if (args.t) {
         return saveToken(args.t);

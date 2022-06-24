@@ -3,8 +3,23 @@
 import axios from 'axios';
 import { getKeyValue } from './storage.service.js';
 
+async function getIcon(iconId) {
+    const ICONS = {
+        '01': '☀️',
+		'02': '🌤️',
+		'03': '☁️',
+		'04': '☁️',
+		'09': '🌧️',
+		'10': '🌦️',
+		'11': '🌩️',
+		'13': '❄️',
+		'50': '🌫️'
+    };
+    return ICONS[iconId.slice(0, -1)];
+}
+
 async function getWeather(city) {
-    const token = await getKeyValue('token');
+    const token = process.env.TOKEN ??await getKeyValue('token');
     if (!token) {
         throw new Error('API key is not set');
     }
@@ -12,12 +27,11 @@ async function getWeather(city) {
         params: {
             q: city,
             appid: token,
-            lang: 'ua',
+            lang: 'en',
             units: 'metric'
         }
     });
-    console.log(data);
     return data;
 }
 
-export { getWeather };
+export { getWeather, getIcon };
