@@ -16,6 +16,7 @@ async function getWeather(city) {
             units: 'metric'
         }
     });
+    console.log(data);
     return data;
 }
 
