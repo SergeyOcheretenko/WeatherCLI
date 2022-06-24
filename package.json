@@ -1,0 +1,27 @@
+{
+  "name": "weather-cli",
+  "version": "1.0.0",
+  "description": "CLI application for tracking the weather in a selected city ",
+  "main": "weather.js",
+  "bin": {
+    "weather": "weather.js"
+  },
+  "scripts": {
+    "start": "node weather.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SergeyOcheretenko/WeatherCLI.git"
+  },
+  "keywords": [
+    "weather",
+    "cli"
+  ],
+  "author": "Sergey Ocheretenko",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SergeyOcheretenko/WeatherCLI/issues"
+  },
+  "homepage": "https://github.com/SergeyOcheretenko/WeatherCLI#readme"
+}
